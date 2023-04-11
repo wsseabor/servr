@@ -6,8 +6,8 @@ from .constants import FieldTypes as ft
 
 """ Mixin class allowing input validation in subclasses """
 class ValidatedMixin:
-    def __init__(self, *args, error_var=None, **kwargs):
 
+    def __init__(self, *args, error_var=None, **kwargs):
         """ Set an error message if none is passed """
         self.error_var = error_var or tk.StringVar()
         super().__init__(*args, **kwargs)
@@ -90,8 +90,10 @@ class ValidatedMixin:
         
         return valid
 
+""" Date entry input class """
 class DateEntry(ValidatedMixin, ttk.Entry):
 
+    """ Allow only numeric keys """
     def _key_validate(self, action, index, char, **kwargs):
         valid = True
 
@@ -106,6 +108,7 @@ class DateEntry(ValidatedMixin, ttk.Entry):
 
         return valid
 
+    """ Focus out if invalid entry """
     def _focusout_validate(self, event):
         valid = True
 
@@ -121,12 +124,17 @@ class DateEntry(ValidatedMixin, ttk.Entry):
 
         return valid
 
+
+""" Extends spinbox class """
 class ValidatedSpinbox(ValidatedMixin, ttk.Spinbox):
+
+    """ Setup """
     def __init__(self, *args, from_="-Infinity", to="Infinity", **kwargs):
         super().__init__(*args, from_=from_, to=to, **kwargs)
         increment = Decimal(str(kwargs.get('increment', '1.0')))
         self.precision = increment.normalize().as_tuple().exponent
 
+    """ Allows only certain key values """
     def _key_validate(self, char, index, current, proposed, action, **kwargs):
         if action == '0':
             return True
@@ -157,6 +165,7 @@ class ValidatedSpinbox(ValidatedMixin, ttk.Spinbox):
 
         return valid
 
+    """ Focus out if """
     def _focusout_validate(self, **kwargs):
         valid = True
         value = self.get()
