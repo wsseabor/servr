@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
+from tkinter import messagebox
 from . import views as v
 from . import models as m
 
@@ -21,18 +22,28 @@ class App(tk.Tk):
         self.recordForm.bind('<<SaveRecord>>', self._on_save)
 
         self.status = tk.StringVar()
-        ttk.Label(self, textvariable=self.status).grid(sticky=(tk.W + tk.E), row=2, padx=10)
+        self.statusBar = ttk.Label(self, textvariable=self.status).grid(sticky=(tk.W + tk.E), row=2, padx=10)
 
         self.recordsSaved = 0
 
     def _on_save(self, *_):
         errors = self.recordForm.get_errors()
         if errors:
-            self.status.set(
-                "Cannot save file, error in fields: {}".format(', '.join(errors.keys))
+            message = "Cannot save record."
+            detail = (
+                "The following fields have errors: "
+                "\n * {}".format(
+                    '\n * '.join(errors.keys())
+                )
             )
 
-            return
+            messagebox.showerror(
+                title = 'Error',
+                message = message,
+                detail = detail
+            )
+
+            return False
 
         data = self.recordForm.get()
         self.model.saveRecord(data)
