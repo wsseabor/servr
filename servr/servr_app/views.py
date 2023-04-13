@@ -23,7 +23,7 @@ class DataRecordForm(ttk.Frame):
         return frame
 
     def __init__(self, parent, model, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+        super().__init__(parent, *args, **kwargs)
 
         self.model = model
         fields = self.model.fields
@@ -33,14 +33,16 @@ class DataRecordForm(ttk.Frame):
             for key, spec in fields.items()
         }
 
+        self.columnconfigure(0, weight = 1)
+
         rInfo = self._addFrame("Shift Information")
 
         minTipsVar = tk.DoubleVar(value='-infinity')
         maxTipsVar = tk.DoubleVar(value='infinity')
 
-        w.LabelInput(rInfo, 'Date', var=self._vars['Date']).grid(row=0, column=0)
-        w.LabelInput(rInfo, 'Tips', fieldSpec=fields['Tips'], var=self._vars['Tips'], inputArgs={"minVar": minTipsVar, "maxVar": maxTipsVar}).grid(row=0, column=1)
-        w.LabelInput(self, "Notes", inputClass=w.BoundText, var=self._vars['Notes'], inputArgs={"width": 75, "height": 10}).grid(sticky=(tk.W + tk.E), row=3, column=0)
+        w.LabelInput(rInfo, 'Date', fieldSpec=fields['Date'], var=self._vars['Date']).grid(row=0, column=0)
+        w.LabelInput(rInfo, 'Tips', fieldSpec=fields['Tips'], var=self._vars['Tips'], inputArgs={"min": minTipsVar, "max": maxTipsVar}).grid(row=0, column=1)
+        w.LabelInput(self, "Notes", fieldSpec=fields['Notes'], var=self._vars['Notes'], inputArgs={"width": 75, "height": 10}).grid(sticky=(tk.W + tk.E), row=3, column=0)
         
         buttons = tk.Frame(self)
         buttons.grid(sticky=tk.W + tk.E, row=4)
