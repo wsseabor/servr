@@ -8,7 +8,7 @@ from .constants import FieldTypes as ft
 class CSVModel:
     fields = {
         "Date": {'req' : True, 'type' : ft.isoDateString},
-        "Tips" : {'req' : True, 'type' : ft.decimal},
+        "Tips" : {'req' : True, 'type' : ft.decimal, 'min' : 0, 'max' : 5000, 'inc' : .01},
         "Notes" : {'req' : False, 'type' : ft.longString}
     }
 
