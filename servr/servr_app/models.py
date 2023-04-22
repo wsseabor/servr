@@ -5,13 +5,17 @@ import os
 
 from .constants import FieldTypes as ft
 
+#Model class that handles data storage / retrieval for our CSV format
 class CSVModel:
+
+    #Relevant fields we need to pull from our field type enum
     fields = {
         "Date": {'req' : True, 'type' : ft.isoDateString},
         "Tips" : {'req' : True, 'type' : ft.decimal, 'min' : 0, 'max' : 5000, 'inc' : .01},
         "Notes" : {'req' : False, 'type' : ft.longString}
     }
 
+    #On initialization, handles file logic with error catching
     def __init__(self):
         datestring = datetime.today().strftime("%Y-%m-%d")
         filename = "servr_app_record_{}.csv".format(datestring)
@@ -25,6 +29,7 @@ class CSVModel:
             msg = f'Permission access denied using {filename}.'
             raise PermissionError(msg)
 
+    #Handles save logic
     def saveRecord(self, data):
         newfile = not self.file.exists()
 
