@@ -41,7 +41,7 @@ class DataRecordForm(ttk.Frame):
         maxTipsVar = tk.DoubleVar(value='infinity')
 
         w.LabelInput(rInfo, 'Date', fieldSpec=fields['Date'], var=self._vars['Date']).grid(row=0, column=0)
-        w.LabelInput(rInfo, 'Tips', fieldSpec=fields['Tips'], var=self._vars['Tips'], inputArgs={"min": minTipsVar, "max": maxTipsVar}).grid(row=0, column=1)
+        #w.LabelInput(rInfo, 'Tips', fieldSpec=fields['Tips'], var=self._vars['Tips'], inputArgs={"min": minTipsVar, "max": maxTipsVar}).grid(row=0, column=1)
         w.LabelInput(self, "Notes", fieldSpec=fields['Notes'], var=self._vars['Notes'], inputArgs={"width": 75, "height": 10}).grid(sticky=(tk.W + tk.E), row=3, column=0)
         
         buttons = tk.Frame(self)

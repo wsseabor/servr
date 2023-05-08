@@ -208,7 +208,7 @@ class BoundText(tk.Text):
             self._variable.set(content)
             self.edit_modified(False)
 
-class LabelInput(tk.Frame):
+class LabelInput(ttk.Frame):
     fieldTypes = {
         ft.string: tk.StringVar,
         ft.isoDateString: DateEntry,
@@ -225,7 +225,7 @@ class LabelInput(tk.Frame):
         self.variable.label_widget = self
 
         if fieldSpec:
-            fieldType = fieldSpec.get('Type', ft.string)
+            fieldType = fieldSpec.get('type', ft.string)
             inputClass = inputClass or self.fieldTypes.get(fieldType)
 
             if 'min' in fieldSpec and 'from_' not in inputArgs:
@@ -248,7 +248,7 @@ class LabelInput(tk.Frame):
         else:
             inputArgs['textvariable'] = self.variable
 
-        """
+        
         if inputClass == ttk.Radiobutton:
             self.input = tk.Frame(self)
             for v in inputArgs.pop('values', []):
@@ -264,7 +264,21 @@ class LabelInput(tk.Frame):
 
         self.input.grid(row=1, column=0, sticky=(tk.W + tk.E))
         self.columnconfigure(0, weight=1)
-        """
+        
+        if disableVar:
+            self.disableVar = disableVar
+            self.disableVar.trace_add('write', self._check_disable)
+
+    def _check_disable(self, *_):
+        if not hasattr(self, 'disableVar'):
+            return
+
+        if self.disableVar.get():
+            self.input.configure(state = tk.DISABLED)
+            self.variable.set('')
+            self.error.set('')
+        else:
+            self.input.configure(state=tk.NORMAL)
 
     def grid(self, sticky=(tk.E + tk.W), **kwargs):
         super().grid(sticky=sticky, **kwargs)
