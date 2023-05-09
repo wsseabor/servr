@@ -124,12 +124,20 @@ class DateEntry(ValidatedMixin, ttk.Entry):
 
         return valid
 
+class RequiredEntry(ValidatedMixin, ttk.Entry):
+
+    def _focusout_validate(self, event):
+        valid = True
+        if not self.get():
+            valid = False
+            self.error.set('A value is required')
+        return valid
 
 """ Extends spinbox class """
 class ValidatedSpinbox(ValidatedMixin, ttk.Spinbox):
 
     """ Setup """
-    def __init__(self, *args, from_="-Infinity", to="Infinity", **kwargs):
+    def __init__(self, *args, min = None, max = None, focusUpdateVar = None, from_="-Infinity", to="Infinity", **kwargs):
         super().__init__(*args, from_=from_, to=to, **kwargs)
         increment = Decimal(str(kwargs.get('increment', '1.0')))
         self.precision = increment.normalize().as_tuple().exponent
@@ -210,7 +218,7 @@ class BoundText(tk.Text):
 
 class LabelInput(ttk.Frame):
     fieldTypes = {
-        ft.string: tk.StringVar,
+        ft.string: RequiredEntry,
         ft.isoDateString: DateEntry,
         ft.longString: BoundText,
         ft.decimal: ValidatedSpinbox,
