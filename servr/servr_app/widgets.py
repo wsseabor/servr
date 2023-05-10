@@ -141,6 +141,55 @@ class ValidatedSpinbox(ValidatedMixin, ttk.Spinbox):
         super().__init__(*args, from_=from_, to=to, **kwargs)
         increment = Decimal(str(kwargs.get('increment', '1.0')))
         self.precision = increment.normalize().as_tuple().exponent
+        self.variable = kwargs.get('textvariable')
+        self.error = tk.StringVar()
+        
+        if not self.variable:
+            self.variable = tk.DoubleVar()
+            self.configure(textvariable=self.variable)
+
+        if min:
+            self.min = min
+            self.min.trace_add('write', self._setMin)
+        if max:
+            self.max = max
+            self.max.trace_add('write', self._setMax)
+
+        self.focusUpdateVar = focusUpdateVar
+        self.bind('<FocusOut>', self._setFocusUpdateVar)
+
+    def _setFocusUpdateVar(self, event):
+        value = self.get()
+        if self.focusUpdateVar and not self.error.get():
+            self.focusUpdateVar.set(value)
+
+    def _setMin(self, *_):
+        current = self.get()
+
+        try:
+            newMin = self.min.get()
+            self.config(from_ = newMin)
+        except (tk.TclError, ValueError):
+            pass
+        if not current:
+            self.delete(0, tk.END)
+        else:
+            self.variable.set(current)
+        self.trigger_focusout_validation()
+
+    def _setMax(self, *_):
+        current = self.get()
+
+        try:
+            newMax = self.max.get()
+            self.config(to = newMax)
+        except (tk.TclError, ValueError):
+            pass
+        if not current:
+            self.delete(0, tk.END)
+        else:
+            self.variable.set(current)
+        self.trigger_focusout_validation()
 
     """ Allows only certain key values """
     def _key_validate(self, char, index, current, proposed, action, **kwargs):
