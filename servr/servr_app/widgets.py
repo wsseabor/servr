@@ -51,7 +51,7 @@ class ValidatedMixin:
 
         return valid
 
-    """ Instance methods that subclasses will override in validation fails """
+    """ Instance methods that subclasses will override if validation fails """
     def _focusout_validate(self, **kwargs):
         return True
 

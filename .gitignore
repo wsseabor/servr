@@ -1,0 +1,11 @@
+*.pyc
+__pycache__/
+*.csv
+
+.DC_Store
+
+.Python
+build/
+dist/
+lib/
+lib64/
