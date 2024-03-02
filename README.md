@@ -1,8 +1,8 @@
-#Servr
+# Servr
 
-##The app that helps service industry professionals track tips on their desktops
+## The app that helps service industry professionals track tips on their desktops
 
-##Motivation
+## Motivation
 
 > Though there are a few tip tracking applications on the app store, users do have to 
 go through a torrent of ad services to even engage with the app itself (even 
@@ -11,9 +11,9 @@ ad free and has the funcitonality to do what you need - namely track the tips ac
 to date, with notes of each date if that applies. Graphing functionality is also 
 included, if visualization is more your speed.
 
-##Requirements
+## Requirements
 > Python3
-  Matplotlib
+> Matplotlib
 
 ##Installation
 
