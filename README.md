@@ -12,14 +12,7 @@ to date, with notes of each date if that applies. Graphing functionality is also
 included, if visualization is more your speed.
 
 ## Requirements
-> Python3
-> Matplotlib
-
-##Installation
-
 > Python is already installed on most machines nowadays, but in case not:
 [Download python](https://www.python.org/downloads/)
 
-```
-pip install matplotlib
-```
+> Matplotlib
