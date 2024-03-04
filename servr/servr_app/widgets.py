@@ -113,13 +113,13 @@ class DateEntry(ValidatedMixin, ttk.Entry):
         valid = True
 
         if not self.get():
-            self.error.set('A value is required.')
+            self.error_var.set('A value is required.')
             valid = False
 
         try:
             datetime.strptime(self.get(), '%Y-%m-%d')
         except ValueError:
-            self.error.set('Invalid date.')
+            self.error_var.set('Invalid date.')
             valid = False
 
         return valid

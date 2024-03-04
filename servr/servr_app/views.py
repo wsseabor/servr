@@ -46,11 +46,15 @@ class DataRecordForm(tk.Frame):
         
         buttons = tk.Frame(self)
         buttons.grid(sticky=tk.W + tk.E, row=4)
+        
         self.saveButton = ttk.Button(buttons, text="Save", command=self._on_save)
         self.saveButton.pack(side=tk.RIGHT)
 
         self.resetButton = ttk.Button(buttons, text="Reset", command=self.reset)
         self.resetButton.pack(side= tk.RIGHT)
+        
+        self.graphButton = ttk.Button(buttons, text="Graphs", command = self.present)
+        self.graphButton.pack(side=tk.RIGHT)
 
     def reset(self):
         for var in self._vars.values():
@@ -58,6 +62,9 @@ class DataRecordForm(tk.Frame):
                 var.set(False)
             else:
                 var.set('')
+
+    def present(self):
+        gInfo = self._addFrame("Shift graph")
 
     def get(self):
         data = dict()
