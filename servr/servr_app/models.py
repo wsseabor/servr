@@ -2,6 +2,7 @@ import csv
 from pathlib import Path
 from datetime import datetime
 import os
+import sqlite3 as sql
 
 from .constants import FieldTypes as ft
 
@@ -39,3 +40,17 @@ class CSVModel:
                 csvwriter.writeheader()
             
             csvwriter.writerow(data)
+
+class SQLModel:
+    fields = {
+        "Date": {'req': True, 'type': ft.isoDateString},
+        "Tips": {'req': True, 'type': ft.decimal},
+        "Notes": {'req': False, 'type': ft.longString}
+    }
+
+    record_insert_query = (
+        'INSERT INTO tip_records VALUES (%(Date)s, %(Tips)s, %(Note)s)' 
+    )
+
+    def __init__(self, host, db, user, pw):
+        self.conn = sql.connect(db)
