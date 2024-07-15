@@ -42,16 +42,18 @@ class CSVModel:
             csvwriter.writerow(data)
 
 class SQLModel:
-    fields = {
+    
+    def __init__(self, db):
+        self.conn = sql.connect(db)
+        self.cur = self.conn.cursor()
+
+    def create_table(self, table_name, fields):
+        self.fields = {
         "Date": {'req': True, 'type': ft.isoDateString},
         "Tips": {'req': True, 'type': ft.decimal},
         "Notes": {'req': False, 'type': ft.longString}
     }
+        
+        self.cur.execute(f'CREATE TABLE IF NOT EXISTS {table_name} ({self.fields})')
 
-    record_insert_query = (
-        'INSERT INTO tip_records VALUES (%(Date)s, %(Tips)s, %(Note)s)' 
-    )
-
-    def __init__(self, db):
-        self.conn = sql.connect(db)
-        self.cur = self.conn.cursor()
+        self.conn.commit()
