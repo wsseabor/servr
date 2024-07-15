@@ -41,12 +41,25 @@ class CSVModel:
             
             csvwriter.writerow(data)
 
+"""
+SQLite3 model class, handles data storage with persistence
+"""
 class SQLModel:
+
+    """
+    @param self.conn - connection to database using SQlite3
+    @param self.cur - cursor object used to send SQL commands to database
+    """
     
     def __init__(self, db):
         self.conn = sql.connect(db)
         self.cur = self.conn.cursor()
 
+    """
+    Create a table in chosen database
+    @param table_name - name of table
+    @param fields - dictionary of fields with required data types for population
+    """
     def create_table(self, table_name, fields):
         self.fields = {
         "Date": {'req': True, 'type': ft.isoDateString},
