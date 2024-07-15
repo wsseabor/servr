@@ -67,6 +67,8 @@ class SQLModel:
         "Notes": {'req': False, 'type': ft.longString}
     }
         
-        self.cur.execute(f'CREATE TABLE IF NOT EXISTS {table_name} ({self.fields})')
+        fields_str = ', '.join(f'{k} {v}' for k, v in self.fields.items)
+        
+        self.cur.execute(f'CREATE TABLE IF NOT EXISTS {table_name} ({fields_str})')
 
         self.conn.commit()
